@@ -169,7 +169,7 @@ describe('PATCH /todos/:id', () => {
 
         var update = {
             completed: false,
-            text: 'This should be the new text'
+            text: 'This should be the new text!!!'
         };
 
         request(app)
