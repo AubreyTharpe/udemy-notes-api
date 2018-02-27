@@ -31,6 +31,8 @@ var UserSchema = new mongoose.Schema({
             required: true
         }
     }]
+}, {
+    usePushEach: true
 });
 
 UserSchema.methods.toJSON = function() {
@@ -44,8 +46,11 @@ UserSchema.methods.generateAuthToken = function() {
     var access = 'auth';
     var token = jwt.sign({_id: user._id.toHexString(), access}, 'abc123').toString();
 
-    user.tokens.push({access, token});
-
+    user.tokens = user.tokens.concat([{
+        access: access,
+        token: token
+    }]);
+    
     return user.save().then(() => {
         return token;
     });
